@@ -28,7 +28,7 @@ function Ant(index, x, y, dims) {
     this.antImage.style.width = this.dims + 'px';
     this.antImage.style.height = this.dims + 'px';
     this.antImage.style.position = 'absolute';
-    this.antImage.style.background = 'url(../images/ant.gif)';
+    this.antImage.style.background = 'url(images/ant.gif)';
     this.antImage.style.backgroundRepeat = 'no-repeat';
     this.antImage.style.backgroundSize = '100% 100%';
     this.antImage.style.left = this.x + 'px';
