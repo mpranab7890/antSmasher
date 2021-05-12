@@ -15,13 +15,13 @@ function Ant(index, x, y, dims) {
     this.index = index
     this.x = x;
     this.y = y;
-    this.dx = getRandomNumber(-2, 2);
+    this.dx = getRandomNumber(-1.5, 1.5);
     while (this.dx > -0.1 && this.dx < 0.1) {
-        this.dx = getRandomNumber(-2, 2);
+        this.dx = getRandomNumber(-1.5, 1.5);
     }
-    this.dy = getRandomNumber(-2, 2);
+    this.dy = getRandomNumber(-1.5, 1.5);
     while (this.dy > -0.1 && this.dy < 0.1) {
-        this.dy = getRandomNumber(-2, 2);
+        this.dy = getRandomNumber(-1.5, 1.5);
     }
 
     this.antImage = document.createElement('div');
@@ -49,10 +49,6 @@ function Ant(index, x, y, dims) {
     }.bind(this);
 
     this.draw = function () {
-        // this.image.onLoad = function () {
-        //     ctx.drawImage(this.image, this.x, this.y)
-        // }.bind(this);
-        // ctx.drawImage(this.image, this.x, this.y, this.dims, this.dims);
         this.antImage.style.left = this.x + 'px';
         this.antImage.style.top = this.y + 'px';
 
@@ -70,8 +66,8 @@ function Ant(index, x, y, dims) {
 
 for (var i = 0; i < noOfAnts; i++) {
     var dims = getRandomNumber(15, 80)
-    var x = getRandomNumber(1 + dims, canvasWidth - dims);
-    var y = getRandomNumber(1 + dims, canvasHeight - dims);
+    var x = getRandomNumber(dims * 2, canvasWidth - dims * 2);
+    var y = getRandomNumber(dims * 2, canvasHeight - dims * 2);
     var ant = new Ant(i, x, y, dims)
     ant.draw();
     ants.push(ant);
@@ -79,7 +75,6 @@ for (var i = 0; i < noOfAnts; i++) {
 
 function animate() {
     requestAnimationFrame(animate)
-    // ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     ants.forEach(function (ant) {
         ant.moveant();
     })
