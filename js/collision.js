@@ -1,8 +1,8 @@
 function collisionWithWall(ant) {
-    if (ant.x >= canvas.width - ant.dims || ant.x <= 0) {
+    if (ant.x >= canvasWidth - ant.dims || ant.x <= 0) {
         ant.dx = -ant.dx;
     }
-    if (ant.y >= canvas.height - ant.dims || ant.y <= 0) {
+    if (ant.y >= canvasHeight - ant.dims || ant.y <= 0) {
         ant.dy = -ant.dy;
     }
     // this.x += this.dx;
@@ -10,42 +10,37 @@ function collisionWithWall(ant) {
     // return [ant.dx, ant.dy];
 }
 
-function collisionWithant(currentant, ants) {
+function collisionWithant(currentAnt, ants) {
     ants.forEach((ant) => {
-        if (currentant.index != ant.index) {
-            if (currentant.x < ant.x + ant.dims && currentant.x + currentant.dims > ant.x) {
-                if (currentant.y < ant.y + ant.dims && currentant.y + currentant.dims > ant.y) {
-                    var DX = currentant.x - ant.x;
-                    var DY = currentant.y - ant.y;
-                    var distance = (Math.sqrt(DX * DX + DY * DY)) || 1;
-                    var nx = DX / distance;
-                    var ny = DY / distance;
+        if (currentAnt.index != ant.index) {
+            if (currentAnt.x < ant.x + ant.dims && currentAnt.x + currentAnt.dims > ant.x) {
+                if (currentAnt.y < ant.y + ant.dims && currentAnt.y + currentAnt.dims > ant.y) {
+                    let angle = Math.atan2(currentAnt.y - ant.y, currentAnt.x - ant.x);
+                    let sin = Math.sin(angle);
+                    let cos = Math.cos(angle);
 
-                    var relvx = ant.dx - currentant.dx;
-                    var relvy = ant.dy - currentant.dy;
+                    // ant1 perpendicular velocities
+                    let vx1 = (currentAnt.dx * cos + currentAnt.dy * sin);
+                    let vy1 = (currentAnt.dy * cos - currentAnt.dx * sin);
 
-                    var speed = (relvx * nx + relvy * ny);
-                    currentant.dx += (speed * nx) * 0.5;
-                    currentant.dy += (speed * ny) * 0.5;
-                    ant.dx -= (speed * nx) * 0.5;
-                    ant.dy -= (speed * ny) * 0.5;
-                    // ball.dx = -ball.dx;
-                    // ball.dy = -ball.dy;
-                    // currentBall.x += currentBall.dx * Math.random();
-                    // currentBall.y += currentBall.dy * Math.random();
+                    // ant2 perpendicular velocities
+                    let vx2 = (ant.dx * cos + ant.dy * sin);
+                    let vy2 = (ant.dy * cos - ant.dx * sin);
 
-                    currentant.x += currentant.dx;
-                    currentant.y += currentant.dy;
-                    ant.x += ant.dx;
-                    ant.y += ant.dy;
+                    // swapping the x velocity     
+                    currentAnt.dx = (vx2 * cos - vy1 * sin);
+                    currentAnt.dy = (vy1 * cos + vx2 * sin);
+                    ant.dx = (vx1 * cos - vy2 * sin);
+                    ant.dy = (vy2 * cos + vx1 * sin);
+                    // currentAnt.dx *= -1;
+                    // currentAnt.dy *= -1;
+                    // currentAnt.x += currentAnt.dx * Math.random();
+                    // currentAnt.y += currentAnt.dy * Math.random();
 
-                    collisionWithWall(currentant);
+                    collisionWithWall(currentAnt);
                     collisionWithWall(ant);
 
-                    // currentant.dx *= -1;
-                    // currentant.dy *= -1;
-                    // currentant.x += currentant.dx * Math.random();
-                    // currentant.y += currentant.dy * Math.random();
+
                 }
             }
 
